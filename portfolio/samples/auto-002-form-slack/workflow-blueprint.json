@@ -1,0 +1,68 @@
+{
+  "name": "Googleフォーム→Slack通知＋スプレッドシート記録",
+  "flow": [
+    {
+      "id": 1,
+      "module": "google-forms:TriggerFormNewResponseEvent",
+      "version": 1,
+      "parameters": {
+        "formId": "YOUR_FORM_ID"
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "restore": {
+          "parameters": {
+            "formId": { "label": "お問い合わせフォーム" }
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "module": "google-sheets:addRow",
+      "version": 2,
+      "parameters": {
+        "spreadsheetId": "YOUR_SPREADSHEET_ID",
+        "sheetId": "回答一覧",
+        "includesHeaders": true
+      },
+      "mapper": {
+        "values": {
+          "名前": "{{1.responses[].answer}}",
+          "メール": "{{1.respondentEmail}}",
+          "内容": "{{1.responses[1].answer}}",
+          "受信日時": "{{formatDate(now; 'YYYY-MM-DD HH:mm:ss')}}"
+        }
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": 0 }
+      }
+    },
+    {
+      "id": 3,
+      "module": "slack:createMessage",
+      "version": 1,
+      "parameters": {
+        "channel": "通知"
+      },
+      "mapper": {
+        "text": "📬 *新しいお問い合わせが届きました*\n\n*名前:* {{1.responses[0].answer}}\n*メール:* {{1.respondentEmail}}\n*内容:* {{1.responses[1].answer}}\n*受信:* {{formatDate(now; 'MM/DD HH:mm')}}"
+      },
+      "metadata": {
+        "designer": { "x": 600, "y": 0 }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false
+    }
+  }
+}
