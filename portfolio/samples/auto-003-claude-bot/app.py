@@ -48,6 +48,9 @@ def slack_events():
 
     if event.get("type") == "app_mention":
         user_text = re.sub(r"<@[A-Z0-9]+>", "", event["text"]).strip()
+        if not user_text:
+            return jsonify({"ok": True})
+
         channel = event["channel"]
         message_ts = event.get("ts")
 
