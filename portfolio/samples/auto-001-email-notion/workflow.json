@@ -63,8 +63,8 @@
           "propertyValues": [
             {
               "key": "送信者",
-              "type": "email",
-              "emailValue": "={{ $node['Gmail トリガー'].json.from }}"
+              "type": "richText",
+              "textContent": "={{ $node['Gmail トリガー'].json.from }}"
             },
             {
               "key": "要約",
