@@ -36,7 +36,7 @@
 本番稼働後のちょっとした質問にも対応します。
 
 ■ ポートフォリオ
-https://github.com/（GitHubユーザー名）/freelance-portfolio
+https://github.com/Hiro4546M/freelance-portfolio
 
 まずはお気軽にメッセージください。
 ```
@@ -54,6 +54,6 @@ Notion / Googleスプレッドシート / Python / GAS
 ---
 
 ## TODO
-- [ ] GitHubユーザー名をURLに入れる
-- [ ] CrowdWorksに設定する
-- [ ] portfolio 3本完成後に「ポートフォリオ」欄にGitHubリンクを貼る
+- [x] GitHubユーザー名をURLに入れる
+- [ ] CrowdWorksに設定する（ブラウザ作業）
+- [ ] portfolio 3本完成後に「ポートフォリオ」欄にGitHubリンクを貼る（ブラウザ作業）
