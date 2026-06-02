@@ -1,9 +1,12 @@
 # Googleフォーム送信 → Slack通知 ＋ スプレッドシート自動記録
 
 ## デモ
-![ワークフロー全体](screenshots/01-workflow-overview.png)
-![Slack通知](screenshots/02-slack-notification.png)
-![スプレッドシート記録](screenshots/03-sheets-record.png)
+
+> スクリーンショットは Make でのセットアップ完了後に追加予定です。
+> セットアップ後、`screenshots/` ディレクトリに以下の画像を配置してください：
+> - `01-workflow-overview.png`：Make ワークフロー全体図
+> - `02-slack-notification.png`：Slack 通知の受信画面
+> - `03-sheets-record.png`：スプレッドシートの記録画面
 
 ## 何ができるか
 Googleフォームに回答が届くと、即座にSlackへ通知し、スプレッドシートに自動記録します。
