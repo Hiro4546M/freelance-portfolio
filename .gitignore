@@ -1,0 +1,20 @@
+# APIキー・認証情報（絶対にpushしない）
+.env
+*.env
+.env.*
+**/secrets/
+**/credentials/
+
+# クライアント情報（匿名化前のもの）
+**/client-data/
+**/raw/
+
+# システムファイル
+.DS_Store
+node_modules/
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+.idea/
