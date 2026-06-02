@@ -29,9 +29,9 @@
       },
       "mapper": {
         "values": {
-          "名前": "{{1.responses[].answer}}",
-          "メール": "{{1.respondentEmail}}",
-          "内容": "{{1.responses[1].answer}}",
+          "名前": "{{1.responses[0].answer}}",
+          "メール": "{{1.responses[1].answer}}",
+          "内容": "{{1.responses[2].answer}}",
           "受信日時": "{{formatDate(now; 'YYYY-MM-DD HH:mm:ss')}}"
         }
       },
@@ -47,7 +47,7 @@
         "channel": "通知"
       },
       "mapper": {
-        "text": "📬 *新しいお問い合わせが届きました*\n\n*名前:* {{1.responses[0].answer}}\n*メール:* {{1.respondentEmail}}\n*内容:* {{1.responses[1].answer}}\n*受信:* {{formatDate(now; 'MM/DD HH:mm')}}"
+        "text": "📬 *新しいお問い合わせが届きました*\n\n*名前:* {{1.responses[0].answer}}\n*メール:* {{1.responses[1].answer}}\n*内容:* {{1.responses[2].answer}}\n*受信:* {{formatDate(now; 'MM/DD HH:mm')}}"
       },
       "metadata": {
         "designer": { "x": 600, "y": 0 }
