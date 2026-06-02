@@ -1,0 +1,105 @@
+{
+  "name": "メール受信→Claude要約→Notion保存",
+  "nodes": [
+    {
+      "id": "node-gmail-trigger",
+      "name": "Gmail トリガー",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "parameters": {
+        "filters": {},
+        "options": {}
+      },
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "YOUR_GMAIL_CREDENTIAL_ID",
+          "name": "Gmail Account"
+        }
+      }
+    },
+    {
+      "id": "node-claude-summary",
+      "name": "Claude で要約",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [500, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-api-key", "value": "={{ $credentials.httpHeaderAuth.value }}" },
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "content-type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 300, messages: [{ role: 'user', content: '以下のメールを3行以内に要約してください。\\n\\n件名: ' + $node['Gmail トリガー'].json.subject + '\\n本文: ' + $node['Gmail トリガー'].json.snippet }] }) }}"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "YOUR_CLAUDE_CREDENTIAL_ID",
+          "name": "Claude API Key"
+        }
+      }
+    },
+    {
+      "id": "node-notion-save",
+      "name": "Notion に保存",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [750, 300],
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "create",
+        "databaseId": "YOUR_NOTION_DATABASE_ID",
+        "title": "={{ $node['Gmail トリガー'].json.subject }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "送信者",
+              "type": "email",
+              "emailValue": "={{ $node['Gmail トリガー'].json.from }}"
+            },
+            {
+              "key": "要約",
+              "type": "richText",
+              "textContent": "={{ $node['Claude で要約'].json.content[0].text }}"
+            },
+            {
+              "key": "受信日時",
+              "type": "date",
+              "date": "={{ $now }}"
+            }
+          ]
+        }
+      },
+      "credentials": {
+        "notionApi": {
+          "id": "YOUR_NOTION_CREDENTIAL_ID",
+          "name": "Notion API"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Gmail トリガー": {
+      "main": [
+        [{ "node": "Claude で要約", "type": "main", "index": 0 }]
+      ]
+    },
+    "Claude で要約": {
+      "main": [
+        [{ "node": "Notion に保存", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
