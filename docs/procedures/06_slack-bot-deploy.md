@@ -91,13 +91,22 @@ python3 -m venv .venv
 
 ## Step 6: ngrok でローカルを公開
 
-**別のターミナルウィンドウ**で実行：
+ngrok はすでに `scripts/bin/ngrok` にインストール済みです。
+
+**初回のみ：ngrok アカウント登録と authtoken 設定**
+
+1. https://ngrok.com/signup で無料アカウント登録
+2. ログイン後 https://dashboard.ngrok.com/get-started/your-authtoken を開く
+3. authtoken をコピーして以下を実行：
 
 ```bash
-# ngrok が未インストールの場合
-# https://ngrok.com/download からダウンロードしてインストール
+scripts/bin/ngrok config add-authtoken YOUR_TOKEN_HERE
+```
 
-ngrok http 3000
+**別ターミナルで起動：**
+
+```bash
+bash scripts/start-ngrok.sh
 # → https://xxxx-xxxx.ngrok-free.app のような URL が表示される
 ```
 
